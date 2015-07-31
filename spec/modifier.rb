@@ -15,11 +15,8 @@ def latest(name)
     last_date = /\d+-\d+-\d+_[[:alpha:]]+\.txt$/.match file
     last_date = last_date.to_s.match /\d+-\d+-\d+/
     date = DateTime.parse(last_date.to_s)
-    date
   end
-
   throw RuntimeError if files.empty?
-
   files.last
 end
 
@@ -52,9 +49,7 @@ class Modifier
 
 	def modify(output, input)
 		input = sort(input)
-
 		input_enumerator = lazy_read(input)
-
 		combiner = Combiner.new do |value|
 			value[KEYWORD_UNIQUE_ID]
 		end.combine(input_enumerator)
@@ -71,31 +66,31 @@ class Modifier
 			end
 		end
 
-	    done = false
-	    file_index = 0
-	    file_name = output.gsub('.txt', '')
-	    while not done do
-			  CSV.open(file_name + "_#{file_index}.txt", "wb", { :col_sep => "\t", :headers => :first_row, :row_sep => "\r\n" }) do |csv|
-				  headers_written = false
-	        line_count = 0
-				  while line_count < LINES_PER_FILE
-					  begin
-						  merged = merger.next
-						  if not headers_written
-							  csv << merged.keys
-							  headers_written = true
-	              line_count +=1
-						  end
-						  csv << merged
-	            line_count +=1
-					  rescue StopIteration
-	            done = true
-						  break
-					  end
-				  end
-	        file_index += 1
-			  end
-	    end
+	  done = false
+	  file_index = 0
+	  file_name = output.gsub('.txt', '')
+	  while not done do
+			CSV.open(file_name + "_#{file_index}.txt", "wb", { :col_sep => "\t", :headers => :first_row, :row_sep => "\r\n" }) do |csv|
+			  headers_written = false
+	      line_count = 0
+				while line_count < LINES_PER_FILE
+					begin
+						merged = merger.next
+						if not headers_written
+							csv << merged.keys
+							headers_written = true
+		          line_count +=1
+						end
+						csv << merged
+		        line_count +=1
+					rescue StopIteration
+		        done = true
+						break
+					end
+				end
+	      file_index += 1
+			end
+	  end
 	end
 
 	private
@@ -127,7 +122,6 @@ class Modifier
 		['Commission Value', 'ACCOUNT - Commission Value', 'CAMPAIGN - Commission Value', 'BRAND - Commission Value', 'BRAND+CATEGORY - Commission Value', 'ADGROUP - Commission Value', 'KEYWORD - Commission Value'].each do |key|
 			hash[key] = (@cancellation_factor * @saleamount_factor * hash[key][0].from_german_to_f).to_german_s
 		end
-		hash
 	end
 
 	def combine_hashes(list_of_rows)
