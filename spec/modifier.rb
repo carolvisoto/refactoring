@@ -10,7 +10,6 @@ require 'date'
 
 def latest(name)
   files = Dir["#{ ENV["HOME"] }/workspace/*#{name}*.txt"]
-
   files.sort_by! do |file|
     last_date = /\d+-\d+-\d+_[[:alpha:]]+\.txt$/.match file
     last_date = last_date.to_s.match /\d+-\d+-\d+/
@@ -48,7 +47,11 @@ class Modifier
 	end
 
 	def modify(output, input)
+		done = false
+	  file_index = 0
+	  file_name = output.gsub('.txt', '')
 		input = sort(input)
+		
 		input_enumerator = lazy_read(input)
 		combiner = Combiner.new do |value|
 			value[KEYWORD_UNIQUE_ID]
@@ -65,10 +68,6 @@ class Modifier
 				end
 			end
 		end
-
-	  done = false
-	  file_index = 0
-	  file_name = output.gsub('.txt', '')
 	  while not done do
 			CSV.open(file_name + "_#{file_index}.txt", "wb", { :col_sep => "\t", :headers => :first_row, :row_sep => "\r\n" }) do |csv|
 			  headers_written = false
