@@ -1,5 +1,5 @@
 # The file has one method call lasted, and this one will sort the file by the last date
-# Two classes String and float will convert the information
+# Two classes String and Float will convert the information
 # Modifier Class will receive two param by initializer and then they will be used for combine values.
 # The class will get the input sort e then will combine the rows and merge then.
 # The new CVS file will be open and the lines are written in the file.
@@ -51,7 +51,7 @@ class Modifier
 	  file_index = 0
 	  file_name = output.gsub('.txt', '')
 		input = sort(input)
-		
+
 		input_enumerator = lazy_read(input)
 		combiner = Combiner.new do |value|
 			value[KEYWORD_UNIQUE_ID]
@@ -138,7 +138,6 @@ class Modifier
 				result[key] << (row.nil? ? nil : row[key])
 			end
 		end
-		result
 	end
 
 	DEFAULT_CSV_OPTIONS = { :col_sep => "\t", :headers => :first_row }
