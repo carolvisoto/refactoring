@@ -38,6 +38,7 @@ class Modifier
 	LAST_REAL_VALUE_WINS = ['Last Avg CPC', 'Last Avg Pos']
 	INT_VALUES = ['Clicks', 'Impressions', 'ACCOUNT - Clicks', 'CAMPAIGN - Clicks', 'BRAND - Clicks', 'BRAND+CATEGORY - Clicks', 'ADGROUP - Clicks', 'KEYWORD - Clicks']
 	FLOAT_VALUES = ['Avg CPC', 'CTR', 'Est EPC', 'newBid', 'Costs', 'Avg Pos']
+	DEFAULT_CSV_OPTIONS = { :col_sep => "\t", :headers => :first_row }
 
   LINES_PER_FILE = 120000
 
@@ -139,8 +140,6 @@ class Modifier
 			end
 		end
 	end
-
-	DEFAULT_CSV_OPTIONS = { :col_sep => "\t", :headers => :first_row }
 
 	def parse(file)
 		CSV.read(file, DEFAULT_CSV_OPTIONS)
