@@ -100,7 +100,6 @@ class Modifier
 		merged.each do |_, hash|
 			result << combine_values(hash)
 		end
-		result
 	end
 
 	def combine_values(hash)
