@@ -1,3 +1,9 @@
+# The file has one method call lasted, and this one will sort the file by the last date
+# Two classes String and float will convert the information
+# Modifier Class will receive two param by initializer and then they will be used for combine values.
+# The class will get the input sort e then will combine the rows and merge then.
+# The new CVS file will be open and the lines are written in the file.
+
 require File.expand_path('lib/combiner',File.dirname(__FILE__))
 require 'csv'
 require 'date'
@@ -8,7 +14,6 @@ def latest(name)
   files.sort_by! do |file|
     last_date = /\d+-\d+-\d+_[[:alpha:]]+\.txt$/.match file
     last_date = last_date.to_s.match /\d+-\d+-\d+/
-
     date = DateTime.parse(last_date.to_s)
     date
   end
